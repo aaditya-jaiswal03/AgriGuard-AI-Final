@@ -17,87 +17,120 @@ st.set_page_config(
 st.markdown("""
     <style>
     /* Global Base */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
-    }
-    .stApp {
-        background: radial-gradient(circle at 10% 20%, #0B0F19 0%, #111827 100%);
-        color: #E5E7EB;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
     
-    /* Hide Streamlit Branding */
-    #MainMenu {visibility: hidden;}
+    .stApp {
+        background-color: #050505;
+        background-image: radial-gradient(circle at 50% -20%, #1a3628 0%, #050505 50%);
+        color: #FAFAFA;
+    }
+    
+    /* Hide Streamlit Branding but KEEP the sidebar toggle */
+    [data-testid="stToolbar"] {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
+    header {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* Style the Sidebar Toggle Button so it's highly visible */
+    [data-testid="collapsedControl"] {
+        color: #10B981 !important;
+        background-color: rgba(20, 20, 20, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin: 10px;
+        transition: all 0.3s ease;
+    }
+    [data-testid="collapsedControl"]:hover {
+        background-color: rgba(16, 185, 129, 0.2) !important;
+        border-color: #10B981;
+    }
 
     /* Custom Sidebar */
     [data-testid="stSidebar"] {
-        background-color: rgba(17, 24, 39, 0.8);
+        background-color: #0A0A0A !important;
         border-right: 1px solid rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
     }
     
-    /* Hero Gradient Typography */
+    /* Hero Typography */
     .hero-title {
-        font-size: 3.8rem;
+        font-size: 4.5rem;
         font-weight: 800;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.04em;
+        line-height: 1.1;
+        margin-bottom: 0;
+        color: #FFFFFF;
+    }
+    .hero-highlight {
         background: linear-gradient(135deg, #34D399 0%, #059669 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-    .hero-subtitle {
-        font-size: 1.1rem;
-        color: #9CA3AF;
-        font-weight: 300;
-        margin-top: 0.5rem;
-        margin-bottom: 3rem;
     }
 
-    /* Glassmorphism Cards */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Bento Cards */
+    .bento-card {
+        background: rgba(20, 20, 20, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 24px;
-        padding: 30px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-        margin-bottom: 1.5rem;
+        padding: 24px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    
+    .hover-glow:hover {
+        transform: translateY(-5px);
+        border-color: rgba(52, 211, 153, 0.3);
+        box-shadow: 0 10px 40px -10px rgba(52, 211, 153, 0.15);
+    }
+
     /* Modern Action Button */
     div.stButton > button {
         background: linear-gradient(135deg, #10B981 0%, #047857 100%);
         color: white;
         border: none;
         padding: 0.75rem 2rem;
-        border-radius: 12px;
+        border-radius: 14px;
         font-size: 1rem;
         font-weight: 600;
         width: 100%;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+        box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.2);
     }
     div.stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.23);
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        border-color: transparent;
     }
     
     /* File Uploader Customization */
     [data-testid="stFileUploadDropzone"] {
-        background-color: rgba(255, 255, 255, 0.02);
+        background-color: rgba(0, 0, 0, 0.2);
         border: 2px dashed rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
+        border-radius: 20px;
         transition: all 0.3s ease;
     }
     [data-testid="stFileUploadDropzone"]:hover {
         border-color: #34D399;
         background-color: rgba(52, 211, 153, 0.05);
+    }
+    
+    /* Status Pulse */
+    @keyframes pulse-border {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+        70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .status-healthy {
+        animation: pulse-border 2s infinite;
+        border: 1px solid #10B981;
+    }
+    .status-danger {
+        border: 1px solid #EF4444;
     }
     </style>
 """, unsafe_allow_html=True)
