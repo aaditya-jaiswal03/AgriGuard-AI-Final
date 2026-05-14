@@ -35,26 +35,38 @@ st.markdown("""
     header {
         background: transparent !important;
         box-shadow: none !important;
+        pointer-events: none !important; /* Let clicks pass through empty header space */
     }
     [data-testid="stHeader"] {
         background: transparent !important;
         z-index: 999998 !important;
     }
 
-    /* Style the Sidebar Toggle Button so it's highly visible */
+    /* Force the Sidebar Toggle Button to be perpetually visible and clickable */
     [data-testid="collapsedControl"] {
         visibility: visible !important;
         display: flex !important;
         z-index: 999999 !important;
+        position: fixed !important; 
+        top: 15px !important;
+        left: 15px !important;
         color: #10B981 !important;
-        background-color: rgba(20, 20, 20, 0.8) !important;
-        border: 1px solid rgba(52, 211, 153, 0.5) !important;
+        background-color: #0A0A0A !important;
+        border: 1px solid rgba(16, 185, 129, 0.5) !important;
         border-radius: 8px !important;
+        padding: 0.2rem !important;
+        pointer-events: auto !important; /* Force button to be clickable */
         transition: all 0.3s ease;
     }
     [data-testid="collapsedControl"]:hover {
         background-color: rgba(16, 185, 129, 0.2) !important;
         border-color: #10B981 !important;
+    }
+    
+    /* Ensure the SVG icon inside the toggle takes the neon green color */
+    [data-testid="collapsedControl"] svg {
+        fill: #10B981 !important;
+        color: #10B981 !important;
     }
 
     /* Custom Sidebar */
