@@ -29,44 +29,38 @@ st.markdown("""
         color: #FAFAFA;
     }
     
-    /* Hide Streamlit Branding but KEEP the sidebar toggle */
-    [data-testid="stToolbar"] {visibility: hidden !important;}
-    footer {visibility: hidden !important;}
-    header {
-        background: transparent !important;
-        box-shadow: none !important;
-        pointer-events: none !important; /* Let clicks pass through empty header space */
-    }
-    [data-testid="stHeader"] {
-        background: transparent !important;
-        z-index: 999998 !important;
+    /* SAFE HEADER CONTROLS */
+    /* Hide the top colored decoration line */
+    [data-testid="stDecoration"] { display: none !important; }
+    
+    /* Hide the 'Deploy' and action menu toolbar */
+    [data-testid="stToolbar"] { display: none !important; }
+    
+    /* Hide footer */
+    footer { display: none !important; }
+    
+    /* Make the header background completely transparent so it doesn't block UI */
+    [data-testid="stHeader"] { 
+        background-color: transparent !important; 
     }
 
-    /* Force the Sidebar Toggle Button to be perpetually visible and clickable */
+    /* Highly Visible, Safe Sidebar Toggle Button */
     [data-testid="collapsedControl"] {
-        visibility: visible !important;
-        display: flex !important;
-        z-index: 999999 !important;
-        position: fixed !important; 
-        top: 15px !important;
-        left: 15px !important;
-        color: #10B981 !important;
         background-color: #0A0A0A !important;
-        border: 1px solid rgba(16, 185, 129, 0.5) !important;
+        border: 1px solid #10B981 !important;
         border-radius: 8px !important;
-        padding: 0.2rem !important;
-        pointer-events: auto !important; /* Force button to be clickable */
-        transition: all 0.3s ease;
+        margin: 15px !important;
+        padding: 5px !important;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
+        transition: all 0.3s ease !important;
     }
     [data-testid="collapsedControl"]:hover {
         background-color: rgba(16, 185, 129, 0.2) !important;
-        border-color: #10B981 !important;
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5) !important;
     }
-    
-    /* Ensure the SVG icon inside the toggle takes the neon green color */
     [data-testid="collapsedControl"] svg {
-        fill: #10B981 !important;
         color: #10B981 !important;
+        fill: #10B981 !important;
     }
 
     /* Custom Sidebar */
