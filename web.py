@@ -371,29 +371,30 @@ elif app_mode == "Diagnostic Engine":
                         status_text = "Optimal Condition" if is_healthy else "Pathology Detected"
                         icon = "✅" if is_healthy else "⚠️"
                         
+                        action_text = "Continue standard maintenance protocols. Monitor irrigation cycles." if is_healthy else f"Isolate affected crops immediately. Consult agricultural database for specific fungicidal/bacterial treatments targeting {diagnosis.split(':')[-1].strip()}."
+                        
+                        # Fix: Removing all leading spaces from the HTML string so Markdown doesn't render it as a code block.
                         st.markdown(f"""
-                            <div class="{status_class}" style="background: rgba(10,10,12,0.6); border-radius: 20px; padding: 32px; margin-top: 1.5rem; position: relative; overflow: hidden;">
-                                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: {status_color};"></div>
-                                <h5 style="color: #A1A1AA; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; font-size: 0.85rem;">Primary Diagnosis</h5>
-                                <h2 style="color: {status_color}; font-weight: 800; font-size: 2.6rem; margin-top: 0; margin-bottom: 28px; letter-spacing: -1px;">
-                                    <span class="float-icon" style="margin-right: 10px;">{icon}</span> {diagnosis}
-                                </h2>
-                                
-                                <div style="background: rgba(255,255,255,0.03); padding: 20px 24px; border-radius: 16px; border-left: 4px solid {status_color}; margin-bottom: 28px; backdrop-filter: blur(10px);">
-                                    <p style="margin: 0 0 10px 0; color: #FFFFFF; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px;">Status: {status_text}</p>
-                                    <p style="margin: 0; color: #A1A1AA; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{status_color}" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                        Confidence Interval: > 94.2%
-                                    </p>
-                                </div>
-                                
-                                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
-                                    <p style="color: #E5E7EB; font-size: 1.05rem; line-height: 1.7; margin: 0;">
-                                        <b style="color: #fff;">Action Required:</b> {"Continue standard maintenance protocols. Monitor irrigation cycles." if is_healthy else f"Isolate affected crops immediately. Consult agricultural database for specific fungicidal/bacterial treatments targeting {diagnosis.split(':')[-1].strip()}."}
-                                    </p>
-                                </div>
-                            </div>
-                        """, unsafe_allow_html=True)
+<div class="{status_class}" style="background: rgba(10,10,12,0.6); border-radius: 20px; padding: 32px; margin-top: 1.5rem; position: relative; overflow: hidden;">
+<div style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: {status_color};"></div>
+<h5 style="color: #A1A1AA; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; font-size: 0.85rem;">Primary Diagnosis</h5>
+<h2 style="color: {status_color}; font-weight: 800; font-size: 2.6rem; margin-top: 0; margin-bottom: 28px; letter-spacing: -1px;">
+<span class="float-icon" style="margin-right: 10px;">{icon}</span> {diagnosis}
+</h2>
+<div style="background: rgba(255,255,255,0.03); padding: 20px 24px; border-radius: 16px; border-left: 4px solid {status_color}; margin-bottom: 28px; backdrop-filter: blur(10px);">
+<p style="margin: 0 0 10px 0; color: #FFFFFF; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px;">Status: {status_text}</p>
+<p style="margin: 0; color: #A1A1AA; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{status_color}" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+Confidence Interval: > 94.2%
+</p>
+</div>
+<div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
+<p style="color: #E5E7EB; font-size: 1.05rem; line-height: 1.7; margin: 0;">
+<b style="color: #fff;">Action Required:</b> {action_text}
+</p>
+</div>
+</div>
+""", unsafe_allow_html=True)
                         
                     except Exception as e:
                         st.error(f"Inference Engine Failed: {str(e)}")
