@@ -29,41 +29,11 @@ st.markdown("""
         color: #FAFAFA;
     }
     
-    /* SAFE HEADER CONTROLS */
-    /* Hide the top colored decoration line */
-    [data-testid="stDecoration"] { display: none !important; }
+    /* Clean up default Streamlit elements safely */
+    footer { visibility: hidden !important; }
+    #MainMenu { visibility: hidden !important; }
     
-    /* Hide the 'Deploy' and action menu toolbar */
-    [data-testid="stToolbar"] { display: none !important; }
-    
-    /* Hide footer */
-    footer { display: none !important; }
-    
-    /* Make the header background completely transparent so it doesn't block UI */
-    [data-testid="stHeader"] { 
-        background-color: transparent !important; 
-    }
-
-    /* Highly Visible, Safe Sidebar Toggle Button */
-    [data-testid="collapsedControl"] {
-        background-color: #0A0A0A !important;
-        border: 1px solid #10B981 !important;
-        border-radius: 8px !important;
-        margin: 15px !important;
-        padding: 5px !important;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
-        transition: all 0.3s ease !important;
-    }
-    [data-testid="collapsedControl"]:hover {
-        background-color: rgba(16, 185, 129, 0.2) !important;
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5) !important;
-    }
-    [data-testid="collapsedControl"] svg {
-        color: #10B981 !important;
-        fill: #10B981 !important;
-    }
-
-    /* Custom Sidebar */
+    /* Custom Sidebar Background */
     [data-testid="stSidebar"] {
         background-color: #0A0A0A !important;
         border-right: 1px solid rgba(255, 255, 255, 0.05);
