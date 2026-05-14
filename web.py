@@ -30,25 +30,31 @@ st.markdown("""
     }
     
     /* Hide Streamlit Branding but KEEP the sidebar toggle */
-    [data-testid="stToolbar"] {visibility: hidden;}
-    footer {visibility: hidden;}
+    [data-testid="stToolbar"] {visibility: hidden !important;}
+    footer {visibility: hidden !important;}
     header {
-        background-color: transparent !important;
+        background: transparent !important;
         box-shadow: none !important;
+    }
+    [data-testid="stHeader"] {
+        background: transparent !important;
+        z-index: 999998 !important;
     }
 
     /* Style the Sidebar Toggle Button so it's highly visible */
     [data-testid="collapsedControl"] {
+        visibility: visible !important;
+        display: flex !important;
+        z-index: 999999 !important;
         color: #10B981 !important;
         background-color: rgba(20, 20, 20, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        margin: 10px;
+        border: 1px solid rgba(52, 211, 153, 0.5) !important;
+        border-radius: 8px !important;
         transition: all 0.3s ease;
     }
     [data-testid="collapsedControl"]:hover {
         background-color: rgba(16, 185, 129, 0.2) !important;
-        border-color: #10B981;
+        border-color: #10B981 !important;
     }
 
     /* Custom Sidebar */
