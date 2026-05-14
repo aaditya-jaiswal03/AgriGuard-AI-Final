@@ -1,9 +1,4 @@
 streamlit
-pandas
-numpy
-matplotlib
-scikit-learn
 tensorflow
-keras
-opencv-python
-scipy
+numpy
+pillow
