@@ -181,27 +181,33 @@ def get_neural_engine():
 model = get_neural_engine()
 
 def execute_inference(image_buffer):
-    """Processes image in-memory and returns class index."""
+    """Processes image in-memory and returns class index and real confidence."""
     img = Image.open(image_buffer).convert('RGB')
     img = img.resize((128, 128))
     img_array = np.array(img)
     img_array = np.expand_dims(img_array, axis=0)
+    
     predictions = model.predict(img_array, verbose=0)
-    return np.argmax(predictions)
+    result_index = np.argmax(predictions)
+    
+    # Calculate real confidence percentage based on the softmax array
+    confidence = float(np.max(predictions[0])) * 100
+    
+    return result_index, confidence
 
-# Comprehensive 38-Class PlantVillage Taxonomy
+# Exact 38-Class Taxonomy from the Original Project
 DISEASE_CLASSES = [
-    'Apple : Scab', 'Apple : Black Rot', 'Apple : Cedar Rust', 'Apple : Healthy', 
-    'Blueberry : Healthy', 'Cherry : Powdery Mildew', 'Cherry : Healthy', 
-    'Corn : Cercospora Leaf Spot', 'Corn : Common Rust', 'Corn : Northern Leaf Blight', 'Corn : Healthy',
-    'Grape : Black Rot', 'Grape : Esca (Black Measles)', 'Grape : Leaf Blight', 'Grape : Healthy',
-    'Orange : Citrus Greening', 'Peach : Bacterial Spot', 'Peach : Healthy',
-    'Pepper, Bell : Bacterial Spot', 'Pepper, Bell : Healthy', 'Potato : Early Blight',
-    'Potato : Late Blight', 'Potato : Healthy', 'Raspberry : Healthy', 'Soybean : Healthy',
-    'Squash : Powdery Mildew', 'Strawberry : Leaf Scorch', 'Strawberry : Healthy',
-    'Tomato : Bacterial Spot', 'Tomato : Early Blight', 'Tomato : Late Blight',
-    'Tomato : Leaf Mold', 'Tomato : Septoria Leaf Spot', 'Tomato : Spider Mites',
-    'Tomato : Target Spot', 'Tomato : Yellow Leaf Curl Virus', 'Tomato : Mosaic Virus', 'Tomato : Healthy'
+    'Apple - Apple Scab', 'Apple - Black Rot', 'Apple - Cedar Apple Rust', 'Apple - Healthy',
+    'Blueberry - Healthy', 'Cherry - Powdery Mildew', 'Cherry - Healthy',
+    'Corn - Cercospora Leaf Spot', 'Corn - Common Rust', 'Corn - Northern Leaf Blight', 'Corn - Healthy',
+    'Grape - Black Rot', 'Grape - Esca (Black Measles)', 'Grape - Leaf Blight', 'Grape - Healthy',
+    'Orange - Huanglongbing (Citrus Greening)', 'Peach - Bacterial Spot', 'Peach - Healthy',
+    'Bell Pepper - Bacterial Spot', 'Bell Pepper - Healthy', 'Potato - Early Blight',
+    'Potato - Late Blight', 'Potato - Healthy', 'Raspberry - Healthy', 'Soybean - Healthy',
+    'Squash - Powdery Mildew', 'Strawberry - Leaf Scorch', 'Strawberry - Healthy',
+    'Tomato - Bacterial Spot', 'Tomato - Early Blight', 'Tomato - Late Blight',
+    'Tomato - Leaf Mold', 'Tomato - Septoria Leaf Spot', 'Tomato - Spider Mites',
+    'Tomato - Target Spot', 'Tomato - Yellow Leaf Curl Virus', 'Tomato - Mosaic Virus', 'Tomato - Healthy'
 ]
 
 # ==========================================
@@ -359,27 +365,39 @@ elif app_mode == "Diagnostic Engine":
                 </div>
             """, unsafe_allow_html=True)
         else:
-            if st.button("Initialize Neural Scan"):
+            if st.button("Initialize Neural Scan 🚀"):
                 with st.spinner("Compiling visual features and executing inference..."):
                     try:
-                        result_idx = execute_inference(uploaded_file)
+                        result_idx, confidence = execute_inference(uploaded_file)
                         diagnosis = DISEASE_CLASSES[result_idx]
                         
-                        plant_type, pathology = diagnosis.split(" : ")
+                        # Correctly parsing the original array
+                        plant_type, pathology = diagnosis.split(" - ")
                         
                         is_healthy = "Healthy" in pathology
                         status_class = "status-healthy" if is_healthy else "status-danger"
                         status_color = "#10B981" if is_healthy else "#EF4444"
-                        status_text = "Optimal Condition" if is_healthy else "Pathology Detected"
                         icon = "✅" if is_healthy else "⚠️"
                         
-                        action_text = "Continue standard maintenance protocols. Monitor irrigation cycles." if is_healthy else f"Isolate affected crops immediately. Consult agricultural database for specific fungicidal/bacterial treatments targeting {pathology}."
-                        
-                        # Fix: Zero indentation inside the string to prevent Markdown parsing it as a code block.
+                        # Restoring the exact dynamic alert message logic from your original code
+                        if is_healthy:
+                            alert_msg = f"🎉 Great news! This {plant_type.lower()} plant appears healthy!"
+                            action_text = "Continue standard maintenance protocols. Monitor irrigation cycles."
+                        else:
+                            alert_msg = f"⚠️ Alert: Potential {pathology} detected in {plant_type.lower()}!"
+                            action_text = f"Isolate affected crops immediately. Consult agricultural database for specific fungicidal/bacterial treatments targeting {pathology}."
+
+                        # Completely flattened HTML string to prevent Markdown parsing bugs
                         st.markdown(f"""
 <div class="{status_class}" style="background: rgba(10,10,12,0.6); border-radius: 20px; padding: 32px; margin-top: 1.5rem; position: relative; overflow: hidden;">
 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: {status_color};"></div>
+
+<div style="background: rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 12px; border-left: 4px solid {status_color}; margin-bottom: 24px;">
+<h4 style="margin: 0; color: #FFFFFF; font-size: 1.1rem; font-weight: 600;">{alert_msg}</h4>
+</div>
+
 <h5 style="color: #A1A1AA; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; font-size: 0.85rem;">Diagnostic Report</h5>
+
 <div style="margin-bottom: 24px;">
 <p style="margin: 0; color: #9CA3AF; font-size: 0.95rem; font-weight: 600; text-transform: uppercase;">Detected Crop</p>
 <h3 style="margin: 0 0 16px 0; color: #FFFFFF; font-weight: 800; font-size: 1.8rem; letter-spacing: -0.5px;">{plant_type}</h3>
@@ -388,13 +406,14 @@ elif app_mode == "Diagnostic Engine":
 <span class="float-icon" style="margin-right: 10px;">{icon}</span> {pathology}
 </h2>
 </div>
+
 <div style="background: rgba(255,255,255,0.03); padding: 20px 24px; border-radius: 16px; border-left: 4px solid {status_color}; margin-bottom: 28px; backdrop-filter: blur(10px);">
-<p style="margin: 0 0 10px 0; color: #FFFFFF; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px;">Status: {status_text}</p>
-<p style="margin: 0; color: #A1A1AA; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{status_color}" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-Confidence Interval: > 94.2%
+<p style="margin: 0; color: #A1A1AA; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{status_color}" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+<b style="color: #fff;">Inference Confidence:</b> {confidence:.2f}%
 </p>
 </div>
+
 <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
 <p style="color: #E5E7EB; font-size: 1.05rem; line-height: 1.7; margin: 0;">
 <b style="color: #fff;">Action Required:</b> {action_text}
