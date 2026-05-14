@@ -238,7 +238,7 @@ with st.sidebar:
 # ==========================================
 
 if app_mode == "Overview":
-    # Cinematic Animated Mesh Hero Banner (Replaces static photo)
+    # Cinematic Animated Mesh Hero Banner
     st.markdown("""
         <div class="bento-card" style="width: 100%; min-height: 480px; border-radius: 36px; overflow: hidden; position: relative; margin-bottom: 2.5rem; padding: 0; border: 1px solid rgba(255,255,255,0.1); background: linear-gradient(120deg, #022c22, #064e3b, #000000, #022c22); background-size: 300% 300%; animation: mainGradient 12s ease infinite, fadeInUp 0.2s forwards;">
             <div style="position: absolute; inset: 0; background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.15), transparent 50%);"></div>
@@ -282,7 +282,7 @@ if app_mode == "Overview":
 elif app_mode == "Architecture":
     st.markdown('<h1 class="hero-title" style="font-size: 4rem; margin-bottom: 2rem; animation: fadeInUp 0.4s forwards; opacity:0;">System <span class="hero-highlight">Architecture.</span></h1>', unsafe_allow_html=True)
     
-    # Modern Animated Data Mesh (Replaces static image)
+    # Modern Animated Data Mesh
     st.markdown("""
         <div class="bento-card" style="padding: 0; overflow: hidden; position: relative; height: 280px; margin-bottom: 2.5rem; animation-delay: 0.1s; background: linear-gradient(to right, #000000, #022c22); border: 1px solid rgba(16, 185, 129, 0.2);">
             <div style="position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background-image: radial-gradient(rgba(16, 185, 129, 0.2) 1px, transparent 1px); background-size: 40px 40px; transform: rotate(15deg); animation: mainGradient 30s linear infinite;"></div>
@@ -365,22 +365,33 @@ elif app_mode == "Diagnostic Engine":
                         result_idx = execute_inference(uploaded_file)
                         diagnosis = DISEASE_CLASSES[result_idx]
                         
-                        is_healthy = "Healthy" in diagnosis
+                        # Fix: Elegantly splitting the class string into Plant and Pathology
+                        plant_type, pathology = diagnosis.split(" : ")
+                        
+                        is_healthy = "Healthy" in pathology
                         status_class = "status-healthy" if is_healthy else "status-danger"
                         status_color = "#10B981" if is_healthy else "#EF4444"
                         status_text = "Optimal Condition" if is_healthy else "Pathology Detected"
                         icon = "✅" if is_healthy else "⚠️"
                         
-                        action_text = "Continue standard maintenance protocols. Monitor irrigation cycles." if is_healthy else f"Isolate affected crops immediately. Consult agricultural database for specific fungicidal/bacterial treatments targeting {diagnosis.split(':')[-1].strip()}."
+                        action_text = "Continue standard maintenance protocols. Monitor irrigation cycles." if is_healthy else f"Isolate affected crops immediately. Consult agricultural database for specific fungicidal/bacterial treatments targeting {pathology}."
                         
-                        # Fix: Removing all leading spaces from the HTML string so Markdown doesn't render it as a code block.
+                        # Rendering the explicitly separated data beautifully
                         st.markdown(f"""
 <div class="{status_class}" style="background: rgba(10,10,12,0.6); border-radius: 20px; padding: 32px; margin-top: 1.5rem; position: relative; overflow: hidden;">
 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: {status_color};"></div>
-<h5 style="color: #A1A1AA; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; font-size: 0.85rem;">Primary Diagnosis</h5>
-<h2 style="color: {status_color}; font-weight: 800; font-size: 2.6rem; margin-top: 0; margin-bottom: 28px; letter-spacing: -1px;">
-<span class="float-icon" style="margin-right: 10px;">{icon}</span> {diagnosis}
-</h2>
+<h5 style="color: #A1A1AA; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; font-size: 0.85rem;">Diagnostic Report</h5>
+
+<div style="margin-bottom: 24px;">
+    <p style="margin: 0; color: #9CA3AF; font-size: 0.95rem; font-weight: 600; text-transform: uppercase;">Detected Crop</p>
+    <h3 style="margin: 0 0 16px 0; color: #FFFFFF; font-weight: 800; font-size: 1.8rem; letter-spacing: -0.5px;">{plant_type}</h3>
+    
+    <p style="margin: 0; color: #9CA3AF; font-size: 0.95rem; font-weight: 600; text-transform: uppercase;">Pathology</p>
+    <h2 style="margin: 0; color: {status_color}; font-weight: 800; font-size: 2.6rem; letter-spacing: -1px;">
+        <span class="float-icon" style="margin-right: 10px;">{icon}</span> {pathology}
+    </h2>
+</div>
+
 <div style="background: rgba(255,255,255,0.03); padding: 20px 24px; border-radius: 16px; border-left: 4px solid {status_color}; margin-bottom: 28px; backdrop-filter: blur(10px);">
 <p style="margin: 0 0 10px 0; color: #FFFFFF; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px;">Status: {status_text}</p>
 <p style="margin: 0; color: #A1A1AA; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
@@ -388,6 +399,7 @@ elif app_mode == "Diagnostic Engine":
 Confidence Interval: > 94.2%
 </p>
 </div>
+
 <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
 <p style="color: #E5E7EB; font-size: 1.05rem; line-height: 1.7; margin: 0;">
 <b style="color: #fff;">Action Required:</b> {action_text}
