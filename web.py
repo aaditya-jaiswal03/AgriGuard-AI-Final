@@ -365,7 +365,6 @@ elif app_mode == "Diagnostic Engine":
                         result_idx = execute_inference(uploaded_file)
                         diagnosis = DISEASE_CLASSES[result_idx]
                         
-                        # Fix: Elegantly splitting the class string into Plant and Pathology
                         plant_type, pathology = diagnosis.split(" : ")
                         
                         is_healthy = "Healthy" in pathology
@@ -376,22 +375,19 @@ elif app_mode == "Diagnostic Engine":
                         
                         action_text = "Continue standard maintenance protocols. Monitor irrigation cycles." if is_healthy else f"Isolate affected crops immediately. Consult agricultural database for specific fungicidal/bacterial treatments targeting {pathology}."
                         
-                        # Rendering the explicitly separated data beautifully
+                        # Fix: Zero indentation inside the string to prevent Markdown parsing it as a code block.
                         st.markdown(f"""
 <div class="{status_class}" style="background: rgba(10,10,12,0.6); border-radius: 20px; padding: 32px; margin-top: 1.5rem; position: relative; overflow: hidden;">
 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: {status_color};"></div>
 <h5 style="color: #A1A1AA; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; font-size: 0.85rem;">Diagnostic Report</h5>
-
 <div style="margin-bottom: 24px;">
-    <p style="margin: 0; color: #9CA3AF; font-size: 0.95rem; font-weight: 600; text-transform: uppercase;">Detected Crop</p>
-    <h3 style="margin: 0 0 16px 0; color: #FFFFFF; font-weight: 800; font-size: 1.8rem; letter-spacing: -0.5px;">{plant_type}</h3>
-    
-    <p style="margin: 0; color: #9CA3AF; font-size: 0.95rem; font-weight: 600; text-transform: uppercase;">Pathology</p>
-    <h2 style="margin: 0; color: {status_color}; font-weight: 800; font-size: 2.6rem; letter-spacing: -1px;">
-        <span class="float-icon" style="margin-right: 10px;">{icon}</span> {pathology}
-    </h2>
+<p style="margin: 0; color: #9CA3AF; font-size: 0.95rem; font-weight: 600; text-transform: uppercase;">Detected Crop</p>
+<h3 style="margin: 0 0 16px 0; color: #FFFFFF; font-weight: 800; font-size: 1.8rem; letter-spacing: -0.5px;">{plant_type}</h3>
+<p style="margin: 0; color: #9CA3AF; font-size: 0.95rem; font-weight: 600; text-transform: uppercase;">Pathology</p>
+<h2 style="margin: 0; color: {status_color}; font-weight: 800; font-size: 2.6rem; letter-spacing: -1px;">
+<span class="float-icon" style="margin-right: 10px;">{icon}</span> {pathology}
+</h2>
 </div>
-
 <div style="background: rgba(255,255,255,0.03); padding: 20px 24px; border-radius: 16px; border-left: 4px solid {status_color}; margin-bottom: 28px; backdrop-filter: blur(10px);">
 <p style="margin: 0 0 10px 0; color: #FFFFFF; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.5px;">Status: {status_text}</p>
 <p style="margin: 0; color: #A1A1AA; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
@@ -399,7 +395,6 @@ elif app_mode == "Diagnostic Engine":
 Confidence Interval: > 94.2%
 </p>
 </div>
-
 <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05);">
 <p style="color: #E5E7EB; font-size: 1.05rem; line-height: 1.7; margin: 0;">
 <b style="color: #fff;">Action Required:</b> {action_text}
@@ -412,4 +407,3 @@ Confidence Interval: > 94.2%
                         st.error(f"Inference Engine Failed: {str(e)}")
         
         st.markdown("</div>", unsafe_allow_html=True)
-    
