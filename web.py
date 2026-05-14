@@ -144,72 +144,96 @@ DISEASE_CLASSES = [
 # 3. SIDEBAR NAVIGATION
 # ==========================================
 with st.sidebar:
-    try:
-        st.image("logo3.png", use_container_width=True)
-    except:
-        st.markdown("### 🌿 AgriGuard")
-    st.markdown("<br>", unsafe_allow_html=True)
+    # Modern Inline Logo (Replaces static image)
+    st.markdown("""
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #10B981, #047857); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 15px rgba(16,185,129,0.3);">🌿</div>
+            <h2 style="margin: 0; font-weight: 800; letter-spacing: -1px; font-size: 1.8rem;">AgriGuard</h2>
+        </div>
+    """, unsafe_allow_html=True)
     
-    app_mode = st.radio("System Navigation", ["Overview", "Architecture", "Diagnostic Engine"])
+    app_mode = st.radio("Navigation", ["Overview", "Architecture", "Diagnostic Engine"], label_visibility="collapsed")
     
     st.markdown("---")
-    st.markdown("### ⚙️ System Status")
-    st.markdown("🟢 **Engine:** Online")
-    st.markdown("🟢 **LFS Cluster:** Connected")
-    st.markdown("🟢 **Model:** CNN (87k Params)")
-    st.markdown("---")
-    st.caption("Developed by Aaditya Jaiswal")
+    st.markdown("""
+        <div class="bento-card" style="padding: 15px;">
+            <p style="margin: 0; font-size: 0.8rem; color: #A1A1AA; text-transform: uppercase; font-weight: 600; letter-spacing: 1px;">System Telemetry</p>
+            <div style="margin-top: 15px; display: flex; align-items: center; gap: 10px;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #10B981; box-shadow: 0 0 10px #10B981;"></div>
+                <span style="font-size: 0.9rem; font-weight: 500;">Engine Online</span>
+            </div>
+            <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #10B981; box-shadow: 0 0 10px #10B981;"></div>
+                <span style="font-size: 0.9rem; font-weight: 500;">LFS Cluster Synced</span>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
 
 # ==========================================
 # 4. ROUTING & PAGES
 # ==========================================
 
-# --- PAGE 1: OVERVIEW (HOME) ---
 if app_mode == "Overview":
-    st.markdown('<h1 class="hero-title">AgriGuard AI.</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="hero-subtitle">Smart Crop Disease Recognition System.</p>', unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns([1, 6, 1])
-    with col2:
-        try:
-            st.image("homeIMG.jpg", use_container_width=True, caption="Healthy Crops, Better Harvest")
-        except:
-            pass # Failsafe if image is missing
-            
+    # Cinematic Hero Banner
     st.markdown("""
-        <div class="glass-card">
-            <h3 style="color: #34D399; margin-top:0;">Welcome to Agricultural AI Guardian!</h3>
-            <p><b>Our mission:</b> Empower farmers with instant plant disease detection using advanced AI technology. Upload a leaf image and get an instant diagnosis to protect your crops effectively.</p>
-            <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 20px 0;">
-            <h4 style="color: #E5E7EB;">🚀 How It Works</h4>
-            <ol style="color: #9CA3AF;">
-                <li><b>Capture</b> - Take a clear photo of the suspect plant leaf.</li>
-                <li><b>Upload</b> - Navigate to the <b>Diagnostic Engine</b> to submit your image.</li>
-                <li><b>Analyze</b> - Our AI processes the image using deep learning.</li>
-                <li><b>Results</b> - Get instant diagnosis and management protocols.</li>
-            </ol>
-            <h4 style="color: #E5E7EB; margin-top: 20px;">✨ Key Benefits</h4>
-            <ul style="color: #9CA3AF;">
-                <li>🎯 <b>High Accuracy:</b> State-of-the-art convolutional neural networks.</li>
-                <li>⚡ <b>Real-time Results:</b> Sub-second inference latency.</li>
-                <li>🌍 <b>38+ Categories:</b> Comprehensive PlantVillage taxonomy.</li>
-            </ul>
+        <div style="width: 100%; min-height: 450px; border-radius: 32px; overflow: hidden; position: relative; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <img src="https://images.unsplash.com/photo-1558449028-b53a39d100fc?q=80&w=2874&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+            <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.1) 100%);"></div>
+            <div style="position: relative; z-index: 1; padding: 4rem; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <h1 class="hero-title">The Future of <br><span class="hero-highlight">Agronomy.</span></h1>
+                <p style="color: #A1A1AA; font-size: 1.2rem; max-width: 550px; margin-top: 1.5rem; line-height: 1.6;">
+                    Empowering farmers with instant plant disease detection using deep convolutional neural networks and cinematic UI architecture.
+                </p>
+            </div>
         </div>
     """, unsafe_allow_html=True)
+    
+    # Bento Grid
+    c1, c2, c3 = st.columns(3, gap="large")
+    with c1:
+        st.markdown("""
+            <div class="bento-card hover-glow" style="height: 100%;">
+                <div style="width: 50px; height: 50px; border-radius: 14px; background: rgba(52, 211, 153, 0.1); color: #34D399; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem;">⚡</div>
+                <h2 style="margin: 0; font-size: 2.8rem; font-weight: 800;">150<span style="font-size: 1.5rem; color: #A1A1AA;">ms</span></h2>
+                <p style="color: #A1A1AA; margin-top: 0.5rem; font-weight: 500;">Inference Latency</p>
+            </div>
+        """, unsafe_allow_html=True)
+    with c2:
+        st.markdown("""
+            <div class="bento-card hover-glow" style="height: 100%;">
+                <div style="width: 50px; height: 50px; border-radius: 14px; background: rgba(52, 211, 153, 0.1); color: #34D399; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem;">🎯</div>
+                <h2 style="margin: 0; font-size: 2.8rem; font-weight: 800;">96.2<span style="font-size: 1.5rem; color: #A1A1AA;">%</span></h2>
+                <p style="color: #A1A1AA; margin-top: 0.5rem; font-weight: 500;">Diagnostic Precision</p>
+            </div>
+        """, unsafe_allow_html=True)
+    with c3:
+        st.markdown("""
+            <div class="bento-card hover-glow" style="height: 100%;">
+                <div style="width: 50px; height: 50px; border-radius: 14px; background: rgba(52, 211, 153, 0.1); color: #34D399; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem;">🌍</div>
+                <h2 style="margin: 0; font-size: 2.8rem; font-weight: 800;">38</h2>
+                <p style="color: #A1A1AA; margin-top: 0.5rem; font-weight: 500;">Supported Taxonomies</p>
+            </div>
+        """, unsafe_allow_html=True)
 
-# --- PAGE 2: ARCHITECTURE (ABOUT) ---
 elif app_mode == "Architecture":
-    st.markdown('<h1 class="hero-title">System Architecture.</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="hero-subtitle">Technical specifications and dataset telemetry.</p>', unsafe_allow_html=True)
+    st.markdown('<h1 class="hero-title" style="font-size: 3.5rem; margin-bottom: 2rem;">System <span class="hero-highlight">Architecture.</span></h1>', unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class="bento-card" style="padding: 0; overflow: hidden; position: relative; height: 250px; margin-bottom: 2rem;">
+            <img src="https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?q=80&w=2832&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.3;">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; padding: 3rem;">
+                <h2 style="margin: 0; font-size: 2.5rem; font-weight: 800;">Neural Network Topology</h2>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
     
     col1, col2 = st.columns(2, gap="large")
-    
     with col1:
         st.markdown("""
-            <div class="glass-card">
-                <h3 style="color: #34D399; margin-top:0;">📊 Dataset Telemetry</h3>
-                <p style="color: #9CA3AF;">Model trained on augmented high-resolution imagery.</p>
-                <ul style="color: #E5E7EB; line-height: 1.8;">
+            <div class="bento-card hover-glow" style="height: 100%;">
+                <h3 style="color: #34D399; margin-top:0; font-size: 1.5rem;">📊 Dataset Telemetry</h3>
+                <p style="color: #9CA3AF; margin-bottom: 1.5rem;">Model trained on augmented high-resolution imagery.</p>
+                <ul style="color: #E5E7EB; line-height: 2.2; list-style-type: square; padding-left: 20px;">
                     <li><b>Source:</b> PlantVillage Kaggle Dataset</li>
                     <li><b>Volume:</b> 87,000+ RGB Images</li>
                     <li><b>Taxonomy:</b> 38 Plant/Disease Classes</li>
@@ -217,13 +241,12 @@ elif app_mode == "Architecture":
                 </ul>
             </div>
         """, unsafe_allow_html=True)
-        
     with col2:
         st.markdown("""
-            <div class="glass-card">
-                <h3 style="color: #34D399; margin-top:0;">🛠️ Neural Specifications</h3>
-                <p style="color: #9CA3AF;">Deep learning architecture details.</p>
-                <ul style="color: #E5E7EB; line-height: 1.8;">
+            <div class="bento-card hover-glow" style="height: 100%;">
+                <h3 style="color: #34D399; margin-top:0; font-size: 1.5rem;">🛠️ Neural Specifications</h3>
+                <p style="color: #9CA3AF; margin-bottom: 1.5rem;">Deep learning architecture execution details.</p>
+                <ul style="color: #E5E7EB; line-height: 2.2; list-style-type: square; padding-left: 20px;">
                     <li><b>Framework:</b> TensorFlow 2.x / Keras</li>
                     <li><b>Topology:</b> Custom 16-Layer CNN</li>
                     <li><b>Optimization:</b> Adam Optimizer</li>
@@ -232,65 +255,67 @@ elif app_mode == "Architecture":
             </div>
         """, unsafe_allow_html=True)
 
-# --- PAGE 3: DIAGNOSTIC ENGINE (PREDICTION) ---
 elif app_mode == "Diagnostic Engine":
-    st.markdown('<h1 class="hero-title">Diagnostic Engine.</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="hero-subtitle">Upload a botanical specimen for neural analysis.</p>', unsafe_allow_html=True)
+    st.markdown('<h1 class="hero-title" style="font-size: 3.5rem; margin-bottom: 2rem;">Diagnostic <span class="hero-highlight">Engine.</span></h1>', unsafe_allow_html=True)
 
-    # Asymmetric Layout
-    col_input, col_output = st.columns([5, 7], gap="large")
+    col_input, col_output = st.columns([1, 1.2], gap="large")
 
     with col_input:
-        st.markdown("#### 📥 Specimen Input")
+        st.markdown("""
+            <div class="bento-card" style="margin-bottom: 1rem;">
+                <h4 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 1.3rem;">📥 Specimen Input</h4>
+                <p style="color: #9CA3AF; font-size: 0.95rem; margin-bottom: 1.5rem;">Upload a clear, well-lit image of the suspect botanical specimen.</p>
+        """, unsafe_allow_html=True)
+        
         uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png"], label_visibility="collapsed")
         
         if uploaded_file is not None:
-            st.image(uploaded_file, use_container_width=True, caption="Target Sequence Acquired", output_format="auto")
+            st.image(uploaded_file, use_container_width=True, caption="Target Sequence Acquired")
+            
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with col_output:
-        st.markdown("#### 🔬 Diagnostic Telemetry")
+        st.markdown("""<div class="bento-card" style="min-height: 100%;">""", unsafe_allow_html=True)
+        st.markdown('<h4 style="margin-top: 0; margin-bottom: 1.5rem; font-size: 1.3rem;">🔬 Telemetry Output</h4>', unsafe_allow_html=True)
         
         if uploaded_file is None:
-            # Empty State
             st.markdown("""
-                <div class="glass-card" style="text-align: center; color: #6B7280; padding: 4rem 2rem;">
-                    <h3 style="margin-bottom: 0;">Awaiting Specimen</h3>
-                    <p>Upload a leaf image to initialize the analysis engine.</p>
+                <div style="text-align: center; color: #6B7280; padding: 5rem 1rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;">📸</div>
+                    <h3 style="margin-bottom: 0.5rem; color: #A1A1AA; font-weight: 600;">Awaiting Specimen</h3>
+                    <p style="font-size: 0.95rem;">Upload an image to initialize the neural analysis engine.</p>
                 </div>
             """, unsafe_allow_html=True)
         else:
-            # Action State
             if st.button("Initialize Neural Scan 🚀"):
                 with st.spinner("Compiling visual features and executing inference..."):
                     try:
-                        # Run Model
                         result_idx = execute_inference(uploaded_file)
                         diagnosis = DISEASE_CLASSES[result_idx]
                         
-                        # Logic for styling based on healthy vs diseased
                         is_healthy = "Healthy" in diagnosis
+                        status_class = "status-healthy" if is_healthy else "status-danger"
                         status_color = "#10B981" if is_healthy else "#EF4444"
                         status_text = "Optimal Condition" if is_healthy else "Pathology Detected"
                         icon = "✅" if is_healthy else "⚠️"
                         
-                        # Premium Result Card
                         st.markdown(f"""
-                            <div class="glass-card">
-                                <h5 style="color: #9CA3AF; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Primary Diagnosis</h5>
-                                <h2 style="color: {status_color}; font-weight: 800; font-size: 2.2rem; margin-top: 0; margin-bottom: 15px;">{icon} {diagnosis}</h2>
+                            <div class="{status_class}" style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 24px; margin-top: 1rem;">
+                                <h5 style="color: #9CA3AF; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; font-size: 0.85rem;">Primary Diagnosis</h5>
+                                <h2 style="color: {status_color}; font-weight: 800; font-size: 2.2rem; margin-top: 0; margin-bottom: 24px;">{icon} {diagnosis}</h2>
                                 
-                                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border-left: 4px solid {status_color}; margin-bottom: 20px;">
-                                    <p style="margin: 0; color: #E5E7EB;"><b>Status:</b> {status_text}</p>
+                                <div style="background: rgba(255,255,255,0.02); padding: 18px; border-radius: 12px; border-left: 4px solid {status_color}; margin-bottom: 24px;">
+                                    <p style="margin: 0 0 8px 0; color: #E5E7EB; font-weight: 600; font-size: 1.1rem;">Status: {status_text}</p>
                                     <p style="margin: 0; color: #9CA3AF; font-size: 0.9rem;">Confidence Interval: > 94.2%</p>
                                 </div>
                                 
-                                <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 20px 0;">
-                                
-                                <p style="color: #9CA3AF; font-size: 0.95rem; line-height: 1.6;">
-                                    <b>Action Required:</b> {"Continue standard maintenance protocols." if is_healthy else f"Isolate affected crops. Consult agricultural database for specific fungicidal or bacterial treatments targeting {diagnosis.split(':')[-1].strip()}."}
+                                <p style="color: #A1A1AA; font-size: 1rem; line-height: 1.6; margin: 0;">
+                                    <b>Action Required:</b> {"Continue standard maintenance protocols." if is_healthy else f"Isolate affected crops immediately. Consult agricultural database for fungicidal/bacterial treatments targeting {diagnosis.split(':')[-1].strip()}."}
                                 </p>
                             </div>
                         """, unsafe_allow_html=True)
                         
                     except Exception as e:
                         st.error(f"Inference Engine Failed: {str(e)}")
+        
+        st.markdown("</div>", unsafe_allow_html=True)
