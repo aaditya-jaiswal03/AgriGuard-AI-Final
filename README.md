@@ -1,73 +1,44 @@
-# 🌿 AgriGuard AI - Crop Disease Detection
+# 🌿 AgriGuard AI — Smart Crop Health Assistant
 
-Check out Here --> https://agrigaurd-ai-crop-disease-detection.streamlit.app/
----
-AgriGuard AI is an AI-powered crop disease detection system designed to help farmers quickly identify plant diseases through leaf image analysis. Using **Deep Learning & Computer Vision**, it provides accurate and real-time results, enabling early intervention to prevent crop loss. 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://agrigaurd-ai-crop-disease-detection.streamlit.app/)
 
----
-
-## 🚀 Features
-✅ AI-powered plant disease detection  
-✅ Mobile-friendly interface for easy access 📱  
-✅ Real-time disease diagnosis with **95% accuracy**  
-✅ Supports **38+ plant varieties**  
-✅ Instant results with deep learning-based predictions  
-✅ User-friendly web interface powered by **Streamlit**  
+AgriGuard AI is a lightweight computer vision tool built to help farmers and agronomists catch plant diseases early. By uploading a single photo of a suspect leaf, the application runs an inference pass against a custom Convolutional Neural Network (CNN) to instantly diagnose the pathology and provide actionable next steps for crop recovery.
 
 ---
 
-## 📷 How It Works?
-1️⃣ **Capture** - Take a clear photo of a plant leaf 📸  
-2️⃣ **Upload** - Submit the image on the app  
-3️⃣ **Analyze** - The AI model processes the image using deep learning  
-4️⃣ **Results** - Get an instant diagnosis and treatment recommendations  
+## 🎯 What It Does
+* **Instant Pathology Detection:** Identifies healthy vs. diseased conditions across **38 distinct crop categories**.
+* **High-Reliability Inference:** Achieves **~95% validation accuracy** on standard out-of-sample visual evaluations.
+* **Field-Ready UI:** Built with a responsive, de-jargonized interface optimized for mobile usage outdoors.
+* **Portable Reports:** Allows users to download clean text summaries of diagnoses to show local agricultural suppliers.
 
 ---
 
-## 🛠️ Tech Stack
-- **Frontend:** Streamlit (Python-based UI)  
-- **Backend:** TensorFlow, Keras, NumPy  
-- **Machine Learning Model:** Convolutional Neural Networks (CNN)  
-- **Deployment:** Streamlit Cloud / Local Server  
+## 🖥️ System Architecture & Tech Stack
+The project decouples raw model compilation from frontend delivery to ensure sub-second cold boot times on headless server containers.
+
+* **Frontend Engine:** Python native UI via [Streamlit](https://streamlit.io/)
+* **Deep Learning Framework:** TensorFlow 2.x / Keras
+* **Array Operations & Buffer Parsing:** NumPy, Pillow (PIL)
+* **Storage Layer:** Git Large File Storage (LFS) for remote `.keras` matrix hosting
 
 ---
 
-## 📂 Dataset Information
-- **Source:** [Plant Diseases Dataset](https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset) 🌱  
-- **Images:** 87,000+ labeled plant leaf images  
-- **Classes:** 38 plant disease categories  
-- **Augmentation:** Rotation, flipping, zooming for better model generalization  
+## 📊 Dataset & Training Telemetry
+The underlying model weights were trained using highly augmented visual samples to account for real-world orientation and scaling variance.
+
+* **Base Corpus:** [Kaggle PlantVillage Pathology Dataset](https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset)
+* **Volume:** 87,000+ labeled RGB source sequences
+* **Input Topology:** Normalized to `128x128` multidimensional tensors
+* **Augmentation Pipeline:** Automated horizontal/vertical reflections, random scaling, and rotational skews
 
 ---
 
-## 🚀 Installation Guide
-### 1️⃣ Clone the Repository
+## 🚀 Local Development Setup
+
+### 1. Clone the Repository
+Ensure you have Git LFS initialized locally so the heavy `.keras` weights pull cleanly.
 ```bash
-  git clone https://github.com/yourusername/AgriGuard-AI.git
-  cd AgriGuard-AI
-```
-
-### 2️⃣ Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3️⃣ Run the App
-```bash
-streamlit run app.py
-```
-
-## 📎 Demo & Deployment
-
-🔗 **Live Demo:** https://agrigaurd-ai-crop-disease-detection.streamlit.app/
-
-📂 **GitHub Repository:** https://github.com/Rohitpawale23/AgriGaurd-AI-Crop-Disease-Detection
-
----
-
-## 📢 Connect With Me
-👤 **Developer:** Rohit Pawale  
-🔗 **Follow Me:** https://www.linkedin.com/in/rohit-pawale-817435255/
-
----
+git clone [https://github.com/aaditya-jaiswal03/AgriGuard-AI-Final.git](https://github.com/aaditya-jaiswal03/AgriGuard-AI-Final.git)
+cd AgriGuard-AI-Final
 
